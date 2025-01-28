@@ -1,0 +1,58 @@
+# report_generator/templates/prompts/compliance.txt
+Generate the compliance and risk assessment section of the Enhanced Due Diligence (EDD) report based on the provided documents. This section should evaluate the company's compliance status, risk factors, and due diligence findings.
+
+Available Documents:
+{documents}
+
+Requirements:
+1. Risk Assessment:
+   - Overall risk rating
+   - Key risk factors identified
+   - Risk mitigation measures
+   - Rationale for risk classification
+
+2. Compliance Checks:
+   - Sanctions screening results
+   - PEP screening findings
+   - Adverse media results
+   - Regulatory compliance status
+
+3. Due Diligence Findings:
+   - KYC/CDD completion status
+   - Documentation completeness
+   - Verification status
+   - Outstanding requirements
+
+4. Monitoring Requirements:
+   - Ongoing monitoring needs
+   - Review frequencies
+   - Special conditions
+   - Trigger events
+
+Formatting Guidelines:
+- Use markdown formatting
+- Start with "## Compliance and Risk Assessment"
+- Use level 3 headers (###) for subsections
+- Reference source documents using [ref:document_name]
+- Use bullet points for findings
+- Maintain objective, evidence-based language
+- Include a risk summary table
+
+Risk Summary Table Format:
+| Risk Factor | Level | Rationale | Mitigation |
+|-------------|-------|-----------|------------|
+| [Factor] | [High/Medium/Low] | [Explanation] | [Measures] |
+
+Example Structure:
+### Risk Assessment
+- Overall Risk Rating: [rating] [ref:risk_assessment_doc]
+- Key Factors:
+  1. [Factor 1] [ref:source_doc]
+  2. [Factor 2] [ref:source_doc]
+
+### Compliance Findings
+- Sanctions Screening: [result] [ref:screening_report]
+- PEP Status: [status] [ref:pep_check]
+- Adverse Media: [findings] [ref:media_check]
+
+The section should provide a clear, fact-based assessment of the company's risk profile and compliance status, supported by referenced documentation.

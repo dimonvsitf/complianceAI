@@ -1,0 +1,56 @@
+# report_generator/templates/prompts/business_description.txt
+Using the provided documents, create a comprehensive business description section for an Enhanced Due Diligence (EDD) report. This section should provide a clear and detailed overview of the company's business activities, structure, and operations.
+
+Available Documents:
+{documents}
+
+Requirements:
+1. Company Information:
+   - Full legal name and structure
+   - Registration details and jurisdiction
+   - Date of incorporation
+   - Registered address
+   - Any regulatory licenses or registrations
+
+2. Business Activities:
+   - Core business description
+   - Main products or services
+   - Target markets and customer base
+   - Geographic presence and operations
+   - Key business relationships
+
+3. Operational Details:
+   - Scale of operations
+   - Key operational locations
+   - Staff size (if available)
+   - Business model
+
+4. Regulatory Context:
+   - Applicable regulations
+   - Compliance requirements
+   - Industry standards
+   - Required licenses and permits
+
+Formatting Guidelines:
+- Use markdown formatting
+- Start with "## Business Description"
+- Use level 3 headers (###) for subsections
+- Reference source documents using [ref:document_name]
+- Include all relevant facts while maintaining clear, professional language
+- Use bullet points where appropriate for clarity
+- Keep a formal, objective tone suitable for compliance documentation
+
+Example Reference:
+"The company was incorporated on March 15, 2010 [ref:certificate_of_incorporation_2010] and obtained its financial services license in April 2010 [ref:fsa_license_2010]."
+
+Format the key company details in a table at the start:
+| Detail | Information |
+|--------|-------------|
+| Legal Name | [Company Name] |
+| Registration Number | [Number] |
+| Date of Incorporation | [Date] |
+| Jurisdiction | [Country] |
+| Business Type | [Type] |
+| Regulatory Status | [Status] |
+
+The section should be comprehensive but concise, focusing on factual information that's relevant for due diligence purposes. Each statement should be supported by referenced documentation where possible.

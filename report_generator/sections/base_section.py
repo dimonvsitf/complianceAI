@@ -7,8 +7,10 @@ from pathlib import Path
 class BaseSection(ABC):
     """Base class for report sections."""
     
-    def __init__(self, templates_dir: Path):
-        self.template_path = templates_dir / f"{self.section_name}.txt"
+    def __init__(self, api_key: str, templates_dir: Path):
+        self.api_key = api_key
+        openai.api_key = api_key
+        self.template_path = templates_dir / "prompts" / f"{self.section_name}.txt"
         with open(self.template_path) as f:
             self.template = f.read()
     
@@ -33,7 +35,7 @@ class BaseSection(ABC):
         }
         
         # Generate section using template and filtered documents
-        prompt = self.template.format(documents=relevant_docs)
+        prompt = self.template.format(documents=self._format_documents(relevant_docs))
         
         response = openai.ChatCompletion.create(
             model="gpt-4",
@@ -41,3 +43,13 @@ class BaseSection(ABC):
         )
         
         return response.choices[0].message.content
+    
+    def _format_documents(self, documents: Dict[str, List[dict]]) -> str:
+        """Format documents for inclusion in prompt."""
+        formatted = []
+        for category, docs in documents.items():
+            formatted.append(f"\n### {category.replace('_', ' ').title()}")
+            for i, doc in enumerate(docs, 1):
+                formatted.append(f"\nDocument {i}:")
+                formatted.append(json.dumps(doc, indent=2))
+        return "\n".join(formatted)

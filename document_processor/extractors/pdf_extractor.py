@@ -1,34 +1,43 @@
 # document_processor/extractors/pdf_extractor.py
-import fitz  # PyMuPDF
+import fitz
 from pathlib import Path
 from .base_extractor import BaseExtractor
-import pytesseract
-from PIL import Image
+from .ocr_extractor import OCRExtractor
 import io
+from PIL import Image
 
 class PDFExtractor(BaseExtractor):
-    """Handles PDF documents, including those with images."""
-    
-    def can_handle(self, file_path: Path) -> bool:
-        return file_path.suffix.lower() == '.pdf'
+    def __init__(self, api_key: str):
+        self.ocr_extractor = OCRExtractor(api_key)
     
     def extract_text(self, file_path: Path) -> str:
         doc = fitz.open(file_path)
-        text_content = []
+        full_text = []
         
-        for page in doc:
-            # Extract text directly
+        for page_num in range(len(doc)):
+            page = doc[page_num]
+            
+            # Get text directly from PDF
             text = page.get_text()
             
-            # If page has little to no text, try OCR on the page image
-            if len(text.strip()) < 50:  # Arbitrary threshold
+            # If page has little text, it might be an image/scan
+            if len(text.strip()) < 50:
                 # Convert page to image
                 pix = page.get_pixmap()
                 img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-                # Perform OCR
-                ocr_text = pytesseract.image_to_string(img)
-                text_content.append(ocr_text)
+                
+                # Save to temporary file
+                temp_img_path = Path(f"temp_page_{page_num}.png")
+                img.save(temp_img_path)
+                
+                # Extract text using OpenAI Vision
+                ocr_text = self.ocr_extractor.extract_text(temp_img_path)
+                
+                # Clean up temp file
+                temp_img_path.unlink()
+                
+                full_text.append(ocr_text)
             else:
-                text_content.append(text)
+                full_text.append(text)
         
-        return "\n\n".join(text_content)
+        return "\n\n".join(full_text)

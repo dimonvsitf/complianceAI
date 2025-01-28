@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 from typing import List
 import openai
-from ..models.document import DocumentSection, ProcessedDocument
+from ..models.document import DocumentSection
 
 class DocumentCategorizer:
     """Categorizes document sections based on content."""
@@ -11,6 +11,7 @@ class DocumentCategorizer:
     def __init__(self, schema_dir: Path):
         """Initialize with directory containing category schemas."""
         self.schemas = self._load_schemas(schema_dir)
+        self.categories = list(self.schemas.keys())
         
     def _load_schemas(self, schema_dir: Path) -> dict:
         schemas = {}
@@ -21,8 +22,13 @@ class DocumentCategorizer:
     
     def identify_sections(self, text: str) -> List[DocumentSection]:
         """Identifies distinct document sections in text."""
+        # Split text into lines for line number tracking
+        lines = text.split('\n')
+        numbered_text = '\n'.join(f"{i+1}| {line}" for i, line in enumerate(lines))
+        
         prompt = """
-        Identify distinct documents in this text. For each document found, provide:
+        Analyze the following text and identify distinct documents within it. Each line is numbered.
+        For each document found, provide:
         1. The line numbers where it starts and ends
         2. A brief description of what the document is
         
@@ -37,23 +43,45 @@ class DocumentCategorizer:
         ]}}
         """
         
-        # Use OpenAI to identify sections
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[{
                 "role": "user", 
-                "content": prompt.format(text=text)
+                "content": prompt.format(text=numbered_text)
             }]
         )
         
         result = json.loads(response.choices[0].message.content)
-        return [DocumentSection(
-            content=self._extract_section_text(text, section["start_line"], section["end_line"]),
-            start_line=section["start_line"],
-            end_line=section["end_line"]
-        ) for section in result["sections"]]
+        return [
+            DocumentSection(
+                content='\n'.join(lines[section["start_line"]-1:section["end_line"]]),
+                start_line=section["start_line"],
+                end_line=section["end_line"]
+            ) 
+            for section in result["sections"]
+        ]
     
     def categorize_section(self, section: DocumentSection) -> str:
         """Determines the category of a document section."""
-        # Implementation details for categorization...
-        pass
+        prompt = f"""
+        Analyze this document and determine which category it belongs to.
+        
+        Available categories:
+        {self.categories}
+        
+        Document content:
+        {section.content}
+        
+        Return only the category name that best matches this document.
+        """
+        
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        
+        category = response.choices[0].message.content.strip()
+        if category not in self.categories:
+            raise ValueError(f"Invalid category returned by API: {category}")
+        
+        return category

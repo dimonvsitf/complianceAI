@@ -1,0 +1,60 @@
+# report_generator/templates/prompts/ownership.txt
+Generate the ownership and control section of the Enhanced Due Diligence (EDD) report using the provided documents. This section should detail the company's ownership structure, beneficial owners, and control mechanisms.
+
+Available Documents:
+{documents}
+
+Requirements:
+1. Ownership Structure:
+   - Direct shareholders and ownership percentages
+   - Ultimate beneficial owners (UBOs)
+   - Complex ownership structures or chains
+   - Corporate shareholders
+   - Changes in ownership (if any)
+
+2. Control Information:
+   - Board composition
+   - Key management personnel
+   - Voting rights
+   - Control mechanisms
+
+3. Beneficial Owner Details:
+   - Personal information
+   - Ownership percentages
+   - Source of wealth
+   - PEP status
+   - Other business interests
+
+4. Verification Details:
+   - Documentation used
+   - Verification methods
+   - Any gaps or discrepancies
+   - Outstanding verification requirements
+
+Formatting Guidelines:
+- Use markdown formatting
+- Start with "## Ownership and Control Structure"
+- Use level 3 headers (###) for subsections
+- Reference source documents using [ref:document_name]
+- Use bullet points for clarity where appropriate
+- Include a visual representation if available
+- Maintain professional, objective language
+
+For each beneficial owner, provide:
+- Full name
+- Nationality
+- Date of birth
+- Residence
+- Ownership percentage
+- Position/role
+- Verification status
+
+Example format:
+### Ultimate Beneficial Owners
+#### [Owner Name]
+- Ownership: XX% [ref:share_register_2023]
+- Nationality: [Country] [ref:passport_copy]
+- Role: [Position] [ref:board_resolution]
+- Verification: [Status] [ref:verification_document]
+
+The section should clearly demonstrate the ownership chain from the registered entity to the ultimate beneficial owners, highlighting any complex structures or potential risk factors.

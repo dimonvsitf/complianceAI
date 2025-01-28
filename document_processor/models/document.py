@@ -19,3 +19,5 @@ class ProcessedDocument:
     sections: List[DocumentSection]
     processed_date: datetime
     original_format: str  # pdf, image, text, etc.
+
+
