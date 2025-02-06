@@ -1,1 +1,42 @@
+# Environment and configuration
 .env
+venv/
+.venv/
+env/
+.python-version
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+input_documents/*
+!input_documents/.gitkeep
+output/*
+!output/.gitkeep
+data/*
+!data/.gitkeep
+
+# Generated files
+*.log
+*.json
+!document_processor/categorizer/schemas/*.json
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# System files
+.DS_Store
+Thumbs.db

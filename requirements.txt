@@ -1,0 +1,12 @@
+# Core dependencies
+python-dotenv>=1.0.0
+openai>=1.0.0
+PyMuPDF>=1.23.0  # For PDF processing (fitz)
+Pillow>=10.0.0   # For image processing
+aiohttp>=3.9.0   # For async HTTP requests
+
+# Optional dependencies for development
+pytest>=7.4.0
+black>=23.9.0
+mypy>=1.5.0
+pylint>=3.0.0
