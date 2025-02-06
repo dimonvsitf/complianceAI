@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Business Activities Schema",
+  "type": "object",
+  "properties": {
+    "business_type": {
+      "type": "string",
+      "description": "Primary business type"
+    },
+    "industry_sector": {
+      "type": "string",
+      "description": "Main industry sector"
+    },
+    "sub_sectors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of sub-sectors"
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activity": {
+            "type": "string",
+            "description": "Business activity description"
+          },
+          "primary": {
+            "type": "boolean",
+            "description": "Whether this is a primary activity"
+          }
+        },
+        "required": ["activity"]
+      }
+    },
+    "licenses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "License type"
+          },
+          "number": {
+            "type": "string",
+            "description": "License number"
+          },
+          "issuer": {
+            "type": "string",
+            "description": "License issuing authority"
+          },
+          "valid_until": {
+            "type": "string",
+            "format": "date",
+            "description": "License expiry date"
+          }
+        },
+        "required": ["type", "number"]
+      }
+    }
+  },
+  "required": ["business_type", "industry_sector"]
+}

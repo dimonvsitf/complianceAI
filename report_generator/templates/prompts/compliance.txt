@@ -1,58 +1,69 @@
-# report_generator/templates/prompts/compliance.txt
-Generate the compliance and risk assessment section of the Enhanced Due Diligence (EDD) report based on the provided documents. This section should evaluate the company's compliance status, risk factors, and due diligence findings.
+Document findings from sanctions, PEP, and adverse media checks
+Document should have a title "LexisNexis and Online Checks"
 
-Available Documents:
-{documents}
+# Summary table
+List all individuals and entities checked (applicant company, key management and beneficial owners, counterparties. Format the response as a table.
+Columns:| Role | Name | Lexis Nexis Result | Adverse media |
+Values:
+   - **Role**: it will be either "Prospect" - for the applicant company; "UBO"/ "Director"/ "Account operator" - as applicable for each of the Persons; "Parent company" for each company in the ownership structure; "Counterparty (incoming)" or "Counterparty (outgoing)" depending on direction of the flow of funds.
+   - **Name**: official legal name of the entity
+   - **Lexis Nexis Result**: the status of the check ("No matches"/ "True match" / "Accepted - False-positive" etc.), followed by any additional relevant information for this entity from lexis nexus (if available).
+   - **Adverse media**, look at Script Media Checks summaries - "None" if there are NO results, otherwise produce a very short summary of any harmful or concerning search results.
 
-Requirements:
-1. Risk Assessment:
-   - Overall risk rating
-   - Key risk factors identified
-   - Risk mitigation measures
-   - Rationale for risk classification
+-   **Databases Used:**
+    -   Document all screening databases utilized
+    -   List sanctions lists checked
+    -   Note the date of Lexis Nexis and Adverse media checks.
 
-2. Compliance Checks:
-   - Sanctions screening results
-   - PEP screening findings
-   - Adverse media results
-   - Regulatory compliance status
+*Example:*
 
-3. Due Diligence Findings:
-   - KYC/CDD completion status
-   - Documentation completeness
-   - Verification status
-   - Outstanding requirements
+| Role | Name | Lexis Nexis Result | Adverse media |
+| "Prospect" | "INPLACE SOFTWARE MIDDLE EAST L.L.C-FZ" | "Accepted - False-positive."| "None" |
 
-4. Monitoring Requirements:
-   - Ongoing monitoring needs
-   - Review frequencies
-   - Special conditions
-   - Trigger events
+*"Lexis Nexis and Adverse media search was performed on 10/09/2024. No true matches found on lexis nexis for any of the individuals or entities mentioned above. Comprehensive screening was conducted on the company, its directors, and beneficial owners using LexisNexis WorldCheck, OFAC, UN Sanctions lists, and EU consolidated lists. An automated adverse media check was also performed on the incorrect entry, along with the rest of the related companies and individuals associated with the prospect. The LexisNexis and adverse media search results for the incorrect name are not included in the above files, as they are irrelevant to the case."*
 
-Formatting Guidelines:
-- Use markdown formatting
-- Start with "## Compliance and Risk Assessment"
-- Use level 3 headers (###) for subsections
-- Reference source documents using [ref:document_name]
-- Use bullet points for findings
-- Maintain objective, evidence-based language
-- Include a risk summary table
+# Sanctions Screening Results
 
-Risk Summary Table Format:
-| Risk Factor | Level | Rationale | Mitigation |
-|-------------|-------|-----------|------------|
-| [Factor] | [High/Medium/Low] | [Explanation] | [Measures] |
+-   **Direct Matches:**
+    -   Document any direct sanctions matches
+    -   Detail the nature of sanctions
+    -   Note relevant dates and authorities
 
-Example Structure:
-### Risk Assessment
-- Overall Risk Rating: [rating] [ref:risk_assessment_doc]
-- Key Factors:
-  1. [Factor 1] [ref:source_doc]
-  2. [Factor 2] [ref:source_doc]
+-   **False Positives:**
+    -   List potential matches investigated
+    -   Document elimination rationale
+    -   Include verification methods
 
-### Compliance Findings
-- Sanctions Screening: [result] [ref:screening_report]
-- PEP Status: [status] [ref:pep_check]
-- Adverse Media: [findings] [ref:media_check]
+*Example:*
 
-The section should provide a clear, fact-based assessment of the company's risk profile and compliance status, supported by referenced documentation.
+*"No direct sanctions matches identified. One false positive for Director John Smith was eliminated based on differing date of birth and nationality[^1]."*
+
+# PEP Screening Results / Adverse Media Findings
+
+-   **PEP Identification:**
+    -   List any identified PEPs
+    -   Document political positions
+    -   Note jurisdictions involved
+
+-   **Associated Risks:**
+    -   Assess risk level of PEP status
+    -   Document mitigating factors
+    -   Note enhanced due diligence measures
+
+*Example:*
+
+*"One beneficial owner identified as a PEP due to current position as regional council member[^2]."*
+
+-   **Media Coverage:**
+    -   Document significant media findings
+    -   Assess credibility of sources
+    -   Note dates and relevance
+
+-   **Impact Analysis:**
+    -   Evaluate reputational impact
+    -   Assess regulatory implications
+    -   Document company responses
+
+*Example:*
+
+*"Limited adverse media findings relating to a 2019 civil dispute[^3], subsequently resolved. No criminal or regulatory issues identified in credible media sources."*

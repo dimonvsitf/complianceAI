@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Compliance Checks Schema",
+  "type": "object",
+  "properties": {
+    "aml_checks": {
+      "type": "object",
+      "properties": {
+        "screening_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of AML screening"
+        },
+        "screening_provider": {
+          "type": "string",
+          "description": "Name of screening service provider"
+        },
+        "hits_found": {
+          "type": "boolean",
+          "description": "Whether any hits were found"
+        },
+        "hit_details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "enum": ["PEP", "Sanctions", "Adverse Media", "Other"],
+                "description": "Category of the hit"
+              },
+              "description": {
+                "type": "string",
+                "description": "Details of the hit"
+              },
+              "source": {
+                "type": "string",
+                "description": "Source of the information"
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "description": "Date of the hit"
+              }
+            },
+            "required": ["category", "description"]
+          }
+        }
+      },
+      "required": ["screening_date", "screening_provider"]
+    },
+    "kyc_verification": {
+      "type": "object",
+      "properties": {
+        "identity_verified": {
+          "type": "boolean",
+          "description": "Whether identity documents were verified"
+        },
+        "address_verified": {
+          "type": "boolean",
+          "description": "Whether address was verified"
+        },
+        "verification_method": {
+          "type": "string",
+          "enum": ["Original Documents", "Certified Copies", "Electronic", "Video KYC"],
+          "description": "Method used for verification"
+        },
+        "documents_provided": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "document_type": {
+                "type": "string",
+                "description": "Type of document"
+              },
+              "verification_status": {
+                "type": "string",
+                "enum": ["Verified", "Pending", "Failed"],
+                "description": "Status of document verification"
+              },
+              "expiry_date": {
+                "type": "string",
+                "format": "date",
+                "description": "Document expiry date"
+              }
+            },
+            "required": ["document_type", "verification_status"]
+          }
+        }
+      },
+      "required": ["identity_verified", "address_verified"]
+    },
+    "risk_assessment": {
+      "type": "object",
+      "properties": {
+        "risk_level": {
+          "type": "string",
+          "enum": ["Low", "Medium", "High"],
+          "description": "Overall risk level"
+        },
+        "risk_factors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "factor": {
+                "type": "string",
+                "description": "Risk factor description"
+              },
+              "level": {
+                "type": "string",
+                "enum": ["Low", "Medium", "High"],
+                "description": "Risk level for this factor"
+              },
+              "mitigation": {
+                "type": "string",
+                "description": "Risk mitigation measures"
+              }
+            },
+            "required": ["factor", "level"]
+          }
+        }
+      },
+      "required": ["risk_level"]
+    }
+  },
+  "required": ["aml_checks", "kyc_verification", "risk_assessment"]
+}

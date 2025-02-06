@@ -1,60 +1,64 @@
-# report_generator/templates/prompts/ownership.txt
-Generate the ownership and control section of the Enhanced Due Diligence (EDD) report using the provided documents. This section should detail the company's ownership structure, beneficial owners, and control mechanisms.
+Document should have a title "Beneficial Ownership and Source of Wealth"
 
-Available Documents:
-{documents}
+Provide a comprehensive analysis of ownership structures, noting that these can range from a single direct owner to intricate, multi-level ownership chains spanning multiple jurisdictions.
 
-Requirements:
-1. Ownership Structure:
-   - Direct shareholders and ownership percentages
-   - Ultimate beneficial owners (UBOs)
-   - Complex ownership structures or chains
-   - Corporate shareholders
-   - Changes in ownership (if any)
+Ensure that each ownership layer is clearly identified, including direct and indirect shareholders, holding companies, venture capital investors, and any associated individuals.
 
-2. Control Information:
-   - Board composition
-   - Key management personnel
-   - Voting rights
-   - Control mechanisms
+Highlight the reasoning behind categorizing certain individuals as UBOs and clarify cases where KYC is not required due to non-controlling interests.
 
-3. Beneficial Owner Details:
-   - Personal information
-   - Ownership percentages
-   - Source of wealth
-   - PEP status
-   - Other business interests
+Reference and document official data sources used for verification (e.g., corporate registries, government-issued documents, regulatory filings such as ASIC extracts, SEC Form ADV, etc.). Include any publicly available profiles (e.g., LinkedIn) and websites of entities involved.
 
-4. Verification Details:
-   - Documentation used
-   - Verification methods
-   - Any gaps or discrepancies
-   - Outstanding verification requirements
+# Ownership Structure
 
-Formatting Guidelines:
-- Use markdown formatting
-- Start with "## Ownership and Control Structure"
-- Use level 3 headers (###) for subsections
-- Reference source documents using [ref:document_name]
-- Use bullet points for clarity where appropriate
-- Include a visual representation if available
-- Maintain professional, objective language
+-   **Scope of Structures:**
+    -   Clearly state whether the structure is simple (e.g., a single individual directly owning the entity) or complex (multi-level, cross-border corporate chains).
 
-For each beneficial owner, provide:
-- Full name
-- Nationality
-- Date of birth
-- Residence
-- Ownership percentage
-- Position/role
-- Verification status
+-   **Multi-Level Ownership Breakdown (if applicable):**
+    -   List all shareholders (individuals, corporations, venture capital firms) at each layer of the corporate chain.
+    -   For each layer, specify the ownership percentages and identify any recent changes.
+    -   Include verification details (e.g., "as evidenced by Confirmation of Shareholders document", "Confirmed by Registry Extract from ASIC" or "Referenced from SEC Form ADV").
+    -   Identify UBOs by following the ownership chain: starting from the top-level holding entities down to individuals.
+    -   Highlight any split ownership details (e.g., multiple partial shareholders, some holding less than a significant threshold).
+    -   Distinguish between controlling and non-controlling investors, noting if certain owners have limited influence (e.g., venture capital funds that do not exercise control).
+    -   For each company in the ownership structure (other than the applicant company), specify their website (if available).
 
-Example format:
-### Ultimate Beneficial Owners
-#### [Owner Name]
-- Ownership: XX% [ref:share_register_2023]
-- Nationality: [Country] [ref:passport_copy]
-- Role: [Position] [ref:board_resolution]
-- Verification: [Status] [ref:verification_document]
+*Example:*
 
-The section should clearly demonstrate the ownership chain from the registered entity to the ultimate beneficial owners, highlighting any complex structures or potential risk factors.
+•   The prospect 'INPLACE SOFTWARE MIDDLE EAST L.L.C-FZ' is owned by the Australian company 'Quantum INT PTY LTD' as confirmed by the Confirmation of Shareholders provided by the prospect.
+•   Quantum INT PTY LTD' is owned the Austrialian company by 'QUANTUM IT GLOBAL HOLDINGS PTY LTD' as shown on the Registry Extract extracted from the KYC tool and the Current Company Extract issued by 'The Australian Securities and Investments Commission' (ASIC) which is the integrated corporate, markets, financial services and consumer credit governmental body and regulator in Australia.
+•   QUANTUM IT GLOBAL HOLDINGS PTY LTD' is 69.44% owned by the Austrialian company 'WHITELINE INVESTMENTS PTY. LTD.' and 30.56% owned by the US based Venture capital 'QUADPARTNERS V LP.' as confirmed by the Registry Extract extracted from the KYC tool and the Current Company Extract issued by 'The Australian Securities and Investments Commission' (ASIC).
+•   Website for QUANTUM IT GLOBAL HOLDINGS PTY LTD is: https://quantumit.com.au/.
+•   WHITELINE INVESTMENTS PTY. LTD. is 100% owned by the Australian natioanl 'GUTHRIE JOHN WHITE' as confirmed by the Registry Extract extracted from the KYC tool and the Current Company Extract issued by 'The Australian Securities and Investments Commission' (ASIC), which makes him the UBO of the prospect.
+•   The US based venture capital 'QUADPARTNERS V LP.' is 75% owned by the individual Lincoln Frank, and the rest of the 25% is owned by multiple shareholders which none of them holds more than 5% as confirmed by the information found on page of the ADV Form submitted by 'QUADPARTNERS V LP.' to the 'Securities and Exchange Commission' and the state securities authorities in the US.
+•   The link to the full form: https://reports.adviserinfo.sec.gov
+•   The 'Form ADV' stands for 'The Uniform Application for Investment Adviser Registration', and it's used as the official application document to register as an investment advisor firm in the US.
+•   Website of QUADPARTNERS V LP. is: https://www.quadpartners.com/
+•   The prospect has confirmed that QUAD PARTNERS V LP does not control the company in any way and that they only provided financing to start the Australian company QUANTUM IT GLOBAL HOLDINGS PTY LTD. as part of its venture capital activities. Therefore the KYC for the UBO Lincoln Frank isn't required and his name isn't added on the ownership strucre on the WA.
+
+# Information about the UBOs
+
+FOR EACH Individual Beneficial Owner provide the following:
+    -   **Legal name:** (as per passport or ID)
+    -   **Date of Birth:** (as per passport or ID)
+    -   **Nationality:** (as per passport)
+    -   **Current Residence:** (as per proof of residence).
+    -   **Ownership level and position:** (in the applicant company first and foremost)
+    -   [IF there are other companies they own] **Other positions of note:**
+    -   [IF there is any information] **Public profile:** (can be a linkedIn profile url OR a summary of their CV/ previous background. Important to show if they got relevant experience/ connections to run the apllicant company
+    -   **Primary Source of Wealth:**
+       --  Summary of a document that shows how they accumulated their wealth over time (including figures). Key is to identify whether they have enough wealth to start OR operate the applicant company
+       Possible Source of Wealth documents:
+       a. Annual accounts of a company they own (extract business profits, revenue and the year + any other relevant).
+       b. Employment agreement and/ or payslips or personal tax declaration (extract monthly/ yearly salary and how recent that information is)
+       c. Investments or asset sales (extract the amount and nature of the assets sold)
+       d. Dividend payments (extract amounts and dates)
+
+*Example:*
+
+* Legal name: GUTHRIE JOHN WHITE
+* Date of Birth: 07/05/1956
+* Nationality: Australia
+* Current Residence: Australia
+* Ownership level and position: He is the sole owner and director of WHITELINE INVESTMENTS PTY LTD, established in 1994. He is also the UBO and director of QUANTUM INT PTY LTD, founded in 2010, and QUANTUM IT GLOBAL HOLDINGS PTY LTD, also founded in 2010, according to the company registry extracts retrieved from the KYC tool (refer to the ownership structure section)
+* Linkedin Profile: https://www.linkedin.com/in/guthrie-white-5190071/
+* Source-of-Wealth: The UBO has provided his Employment Agreement which was signed between him and Quantum IT Global Holdings Pty Limited on the 24th of March, 2021, it states that he holds the position of an 'Executive' at the company with an annual salary that amounts to AU$300,000, the UBO has also provided his payslips for May, July and August 2024 which show that he has received AU$24,523.67 in May, and AU$24,900.67 in July & August 2024.

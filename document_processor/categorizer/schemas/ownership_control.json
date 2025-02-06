@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ownership and Control Schema",
+  "type": "object",
+  "properties": {
+    "shareholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["Individual", "Corporate"],
+            "description": "Type of shareholder"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of shareholder"
+          },
+          "ownership_percentage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Percentage of ownership"
+          },
+          "share_class": {
+            "type": "string",
+            "description": "Class of shares held"
+          },
+          "acquisition_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Date shares were acquired"
+          },
+          "nationality": {
+            "type": "string",
+            "description": "Nationality/jurisdiction of shareholder"
+          },
+          "pep_status": {
+            "type": "boolean",
+            "description": "Whether shareholder is a PEP"
+          }
+        },
+        "required": ["type", "name", "ownership_percentage"]
+      }
+    },
+    "beneficial_owners": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date"
+          },
+          "nationality": {
+            "type": "string"
+          },
+          "residence_country": {
+            "type": "string"
+          },
+          "ownership_type": {
+            "type": "string",
+            "enum": ["Direct", "Indirect", "Control"],
+            "description": "Type of beneficial ownership"
+          },
+          "total_ownership": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "control_description": {
+            "type": "string",
+            "description": "Description of control mechanism"
+          }
+        },
+        "required": ["name", "ownership_type", "total_ownership"]
+      }
+    },
+    "corporate_structure": {
+      "type": "object",
+      "properties": {
+        "parent_company": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "jurisdiction": {
+              "type": "string"
+            },
+            "ownership_percentage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "subsidiaries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "jurisdiction": {
+                "type": "string"
+              },
+              "ownership_percentage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "business_purpose": {
+                "type": "string"
+              }
+            },
+            "required": ["name", "ownership_percentage"]
+          }
+        }
+      }
+    },
+    "control_changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["Share Transfer", "Board Change", "Control Agreement", "Other"],
+            "description": "Type of control change"
+          },
+          "description": {
+            "type": "string",
+            "description": "Details of the change"
+          },
+          "previous_owner": {
+            "type": "string"
+          },
+          "new_owner": {
+            "type": "string"
+          }
+        },
+        "required": ["date", "type", "description"]
+      }
+    }
+  },
+  "required": ["shareholders", "beneficial_owners"]
+}

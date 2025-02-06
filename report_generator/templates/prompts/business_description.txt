@@ -1,56 +1,43 @@
-# report_generator/templates/prompts/business_description.txt
-Using the provided documents, create a comprehensive business description section for an Enhanced Due Diligence (EDD) report. This section should provide a clear and detailed overview of the company's business activities, structure, and operations.
+Document should have a title "Business Activity"
 
-Available Documents:
-{documents}
+# Introduction
+format the following in a table of key-value pairs, with the first column containing the following keys
+-   **Company's Full Legal Name**
+-   **Legal Structure:** (Corporation, LLC, Partnership, etc.)
+-   **Date and Place of Incorporation**
+-   **Registration Number(s)**
+-   **Regulatory License(s)**
+-   **Registered Address and Contact Information**
+-   **Company Website**
+and the second column containing values specific to the applicant company
 
-Requirements:
-1. Company Information:
-   - Full legal name and structure
-   - Registration details and jurisdiction
-   - Date of incorporation
-   - Registered address
-   - Any regulatory licenses or registrations
+*a few example rows:*
 
-2. Business Activities:
-   - Core business description
-   - Main products or services
-   - Target markets and customer base
-   - Geographic presence and operations
-   - Key business relationships
+| **Company's Full Legal Name** | **ABC Fintech Solutions Ltd.** |
+| **Legal Structure:** | **Limited liability company** |
+| **Date and Place of Incorporation** | **incorporated on March 15, 2010, in London, United Kingdom** |
+| **Registration Number(s)** | **12345678 with Companies House UK** |
+| **Regulatory Licenses(s)** | **E-Money license by the FCA number 900918** |
+| **Company Website** | **https://www.abc-company.co.uk** |
 
-3. Operational Details:
-   - Scale of operations
-   - Key operational locations
-   - Staff size (if available)
-   - Business model
+# Business description
+-   **Primary Business Activities:** Detailed description of products or services.
+-   **Industry Sector and Sub-Sector(s)** what industries the company operates in and whether their license allows them to
+-   **Typical clients** i.e. typical payments received (include countries if available).
+-   **Typical client acquisition strategy** i.e. whether company uses the website/ word-of-mouth/ network of founders or some other channels to get new customers.
+-   **Typical suppliers/ sub-contractors** i.e. who the company pays (include countries if available)
+-   **International operations** (if any) bring up if the company has offices/ presense in other countries
+-   **Local operations** whether the company has economic substance in the country of registration (e.g. local clients, employees, resident UBOs or directors, legal opinion etc.)
+-   **Purpose of opening an account with 3S money** e.g. support business operations with clients in the region, expansion plans into the region or something else
+-   **Regulatory Framework:**
+-   **Industry Standards/ Regulatation:** i.e. any applicable regulations and compliance requirements, regulatory licenses and permissions, quality certifications, tax compliance
 
-4. Regulatory Context:
-   - Applicable regulations
-   - Compliance requirements
-   - Industry standards
-   - Required licenses and permits
+Note: Do NOT mention the assigned risk level or score in this section.
 
-Formatting Guidelines:
-- Use markdown formatting
-- Start with "## Business Description"
-- Use level 3 headers (###) for subsections
-- Reference source documents using [ref:document_name]
-- Include all relevant facts while maintaining clear, professional language
-- Use bullet points where appropriate for clarity
-- Keep a formal, objective tone suitable for compliance documentation
+*Example:*
 
-Example Reference:
-"The company was incorporated on March 15, 2010 [ref:certificate_of_incorporation_2010] and obtained its financial services license in April 2010 [ref:fsa_license_2010]."
-
-Format the key company details in a table at the start:
-| Detail | Information |
-|--------|-------------|
-| Legal Name | [Company Name] |
-| Registration Number | [Number] |
-| Date of Incorporation | [Date] |
-| Jurisdiction | [Country] |
-| Business Type | [Type] |
-| Regulatory Status | [Status] |
-
-The section should be comprehensive but concise, focusing on factual information that's relevant for due diligence purposes. Each statement should be supported by referenced documentation where possible.
+- The company offers a web-based "Integrated Learning Placement Solution," which connects academic learning with real-world work placements or internships. This system enables students to apply their knowledge in practical settings, while helping academic institutions manage the entire student placement process. It is designed to maximize efficiency and coordination, with students able to log in and participate from anywhere.
+- The company's clients are in academic institutions and hospitals the UAE, Qatar, and Saudi Arabia, and typically connect through their website: https://inplacesoftware.com/ .
+- In addition to the UAE office, the company has offices in Singapore, Australia, US & UK.
+- The purpose of opening an account with 3SM is to support the companys business operations in the GCC region (Qatar, UAE, and Saudi Arabia). Since its incorporation in the UAE, the company has not held a bank account, and all financial transactions were managed by its parent company 'Quantum INT PTY LTD' due to the UBO being based in Australia and the absence of local employees in the UAE. This issue has now been resolved with the appointment of Mr. Timothy James Bergmeier, a UAE resident, as the company's manager as per the Trade Licence provided.
+- The prospect has provided a verified Certificate of Registration for Corporate Tax in the United Arab Emirates. The registration confirmed the Corporate Tax Period for the prospect starts on 01/01/2024 and ends 31/12/2024 along with the first corporate tax return filing due date occurring on 30/09/2025.

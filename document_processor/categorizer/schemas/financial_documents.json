@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Financial Documents Schema",
+  "type": "object",
+  "properties": {
+    "financial_statements": {
+      "type": "object",
+      "properties": {
+        "statement_type": {
+          "type": "string",
+          "enum": ["Balance Sheet", "Income Statement", "Cash Flow", "Combined"],
+          "description": "Type of financial statement"
+        },
+        "period": {
+          "type": "object",
+          "properties": {
+            "start_date": {
+              "type": "string",
+              "format": "date"
+            },
+            "end_date": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "required": ["start_date", "end_date"]
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency used in statements"
+        },
+        "audited": {
+          "type": "boolean",
+          "description": "Whether statements are audited"
+        },
+        "auditor": {
+          "type": "string",
+          "description": "Name of auditing firm"
+        }
+      },
+      "required": ["statement_type", "period", "currency"]
+    },
+    "key_metrics": {
+      "type": "object",
+      "properties": {
+        "revenue": {
+          "type": "number"
+        },
+        "net_profit": {
+          "type": "number"
+        },
+        "total_assets": {
+          "type": "number"
+        },
+        "total_liabilities": {
+          "type": "number"
+        },
+        "equity": {
+          "type": "number"
+        }
+      }
+    },
+    "bank_statements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bank_name": {
+            "type": "string"
+          },
+          "account_type": {
+            "type": "string"
+          },
+          "statement_period": {
+            "type": "object",
+            "properties": {
+              "start_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "end_date": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            "required": ["start_date", "end_date"]
+          },
+          "opening_balance": {
+            "type": "number"
+          },
+          "closing_balance": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          }
+        },
+        "required": ["bank_name", "statement_period", "currency"]
+      }
+    },
+    "transaction_summary": {
+      "type": "object",
+      "properties": {
+        "total_inflow": {
+          "type": "number"
+        },
+        "total_outflow": {
+          "type": "number"
+        },
+        "average_monthly_volume": {
+          "type": "number"
+        },
+        "major_counterparties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "transaction_volume": {
+                "type": "number"
+              },
+              "transaction_count": {
+                "type": "integer"
+              },
+              "relationship": {
+                "type": "string",
+                "description": "Nature of business relationship"
+              }
+            },
+            "required": ["name", "transaction_volume"]
+          }
+        }
+      }
+    }
+  },
+  "required": ["financial_statements"]
+}
