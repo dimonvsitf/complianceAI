@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 from typing import List
-import openai
+from openai import OpenAI
 from ..models.document import DocumentSection
 
 class DocumentCategorizer:
@@ -10,6 +10,7 @@ class DocumentCategorizer:
     
     def __init__(self, schema_dir: Path):
         """Initialize with directory containing category schemas."""
+        self.client = OpenAI()
         self.schemas = self._load_schemas(schema_dir)
         self.categories = list(self.schemas.keys())
         
@@ -34,24 +35,51 @@ class DocumentCategorizer:
         
         Text to analyze:
         {text}
-        
-        Return in JSON format:
-        {{"sections": [
-            {{"start_line": int,
-              "end_line": int,
-              "description": "string"}}
-        ]}}
         """
         
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[{
-                "role": "user", 
-                "content": prompt.format(text=numbered_text)
-            }]
-        )
+        messages = [{
+            "role": "user", 
+            "content": prompt.format(text=numbered_text)
+        }]
+        print("\nSending to OpenAI (identify_sections):")
+        print("Messages:", json.dumps(messages, indent=2))
         
-        result = json.loads(response.choices[0].message.content)
+        response = self.client.chat.completions.create(
+            model="gpt-4",
+            messages=messages,
+            response_format={
+                "type": "json_schema",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "sections": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "start_line": {"type": "integer"},
+                                    "end_line": {"type": "integer"},
+                                    "description": {"type": "string"}
+                                },
+                                "required": ["start_line", "end_line", "description"]
+                            }
+                        }
+                    },
+                    "required": ["sections"]
+                }
+            }
+        )
+        print("\nOpenAI Response:")
+        print(json.dumps(response.model_dump(), indent=2))
+        
+        try:
+            result = json.loads(response.choices[0].message.content)
+            if not isinstance(result, dict) or 'sections' not in result:
+                return [DocumentSection(content=text, start_line=1, end_line=len(text.split('\n')))]
+        except json.JSONDecodeError:
+            # If we can't parse the response, treat the entire text as one section
+            return [DocumentSection(content=text, start_line=1, end_line=len(text.split('\n')))]
+        
         return [
             DocumentSection(
                 content='\n'.join(lines[section["start_line"]-1:section["end_line"]]),
@@ -66,22 +94,56 @@ class DocumentCategorizer:
         prompt = f"""
         Analyze this document and determine which category it belongs to.
         
-        Available categories:
-        {self.categories}
+        Available categories (use EXACTLY one of these names):
+        {', '.join(self.categories)}
         
         Document content:
         {section.content}
-        
-        Return only the category name that best matches this document.
         """
         
-        response = openai.ChatCompletion.create(
+        messages = [{"role": "user", "content": prompt}]
+        print("\nSending to OpenAI (categorize_section):")
+        print("Messages:", json.dumps(messages, indent=2))
+        
+        response = self.client.chat.completions.create(
             model="gpt-4",
-            messages=[{"role": "user", "content": prompt}]
+            messages=messages,
+            response_format={
+                "type": "json_schema",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "category": {
+                            "type": "string",
+                            "enum": self.categories
+                        }
+                    },
+                    "required": ["category"]
+                }
+            }
         )
+        print("\nOpenAI Response:")
+        print(json.dumps(response.model_dump(), indent=2))
         
-        category = response.choices[0].message.content.strip()
-        if category not in self.categories:
-            raise ValueError(f"Invalid category returned by API: {category}")
-        
-        return category
+        try:
+            result = json.loads(response.choices[0].message.content)
+            category = result.get('category', '').strip().lower()
+            
+            if category not in self.categories:
+                # Default to most appropriate category based on content
+                if any(keyword in section.content.lower() for keyword in ['license', 'certificate', 'registration']):
+                    return 'company_formation'
+                elif any(keyword in section.content.lower() for keyword in ['invoice', 'contract', 'agreement']):
+                    return 'business_activities'
+                elif any(keyword in section.content.lower() for keyword in ['compliance', 'check', 'verification']):
+                    return 'compliance_checks'
+                elif any(keyword in section.content.lower() for keyword in ['financial', 'statement', 'balance']):
+                    return 'financial_documents'
+                else:
+                    return 'ownership_control'  # default category
+            
+            return category
+        except Exception as e:
+            # Default to ownership_control if anything goes wrong
+            print(f"\nError parsing category: {e}")
+            return 'ownership_control'

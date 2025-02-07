@@ -2,14 +2,14 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
 import openai
+import json
 from pathlib import Path
 
 class BaseSection(ABC):
     """Base class for report sections."""
     
     def __init__(self, api_key: str, templates_dir: Path):
-        self.api_key = api_key
-        openai.api_key = api_key
+        self.client = openai.OpenAI(api_key=api_key)
         self.template_path = templates_dir / "prompts" / f"{self.section_name}.txt"
         with open(self.template_path) as f:
             self.template = f.read()
@@ -37,7 +37,7 @@ class BaseSection(ABC):
         # Generate section using template and filtered documents
         prompt = self.template.format(documents=self._format_documents(relevant_docs))
         
-        response = openai.ChatCompletion.create(
+        response = self.client.chat.completions.create(
             model="gpt-4",
             messages=[{"role": "user", "content": prompt}]
         )

@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from typing import Dict, Any, Optional
-import openai
+from openai import OpenAI
 from .prompts.builder import PromptBuilder
 from .prompts.types import PromptTemplate
 from .prompts.sections import business_description
@@ -17,9 +17,8 @@ class ReportGenerator:
             api_key: OpenAI API key
             templates_dir: Directory containing templates and prompts
         """
-        self.api_key = api_key
+        self.client = OpenAI(api_key=api_key)
         self.templates_dir = templates_dir
-        openai.api_key = api_key
         
     async def _generate_content(self, prompt: str, model: str = "gpt-4") -> str:
         """
@@ -33,7 +32,7 @@ class ReportGenerator:
             Generated content
         """
         try:
-            response = await openai.ChatCompletion.acreate(
+            response = await self.client.chat.completions.create(
                 model=model,
                 messages=[
                     {"role": "system", "content": "You are a compliance and due diligence expert."},

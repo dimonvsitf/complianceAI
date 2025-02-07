@@ -1,4 +1,5 @@
 # report_generator/sections/__init__.py
+from pathlib import Path
 from .business_description import BusinessDescriptionSection
 from .ownership_section import OwnershipSection
 from .compliance_section import ComplianceSection

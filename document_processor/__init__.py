@@ -1,10 +1,11 @@
 # document_processor/__init__.py
 from pathlib import Path
 from typing import Dict, List
+from datetime import datetime
 from .extractors import get_extractor #not defined yet
 from .categorizer import DocumentCategorizer 
-from .summarizer import DocumentSummarizer 
-from .models.document import ProcessedDocument 
+from .summariser.document_summarizer import DocumentSummarizer 
+from .models.document import ProcessedDocument, DocumentSection
 
 class DocumentProcessor:
     def __init__(self, api_key: str, schema_dir: Path):
@@ -39,4 +40,3 @@ class DocumentProcessor:
     def extract_structured_data(self, section: DocumentSection) -> dict:
         """Extract structured data from a document section based on its category."""
         return self.summarizer.summarize_section(section)
-

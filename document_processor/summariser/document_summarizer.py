@@ -9,8 +9,7 @@ class DocumentSummarizer:
     
     def __init__(self, api_key: str, schema_dir: Path):
         """Initialize with OpenAI API key and schema directory."""
-        self.api_key = api_key
-        openai.api_key = api_key
+        self.client = openai.OpenAI(api_key=api_key)
         self.schemas = self._load_schemas(schema_dir)
     
     def _load_schemas(self, schema_dir: Path) -> dict:
@@ -37,13 +36,26 @@ class DocumentSummarizer:
         Return a JSON object that follows the schema exactly.
         """
         
-        response = openai.ChatCompletion.create(
+        messages = [{"role": "user", "content": prompt}]
+        print("\nSending to OpenAI (summarize_section):")
+        print("Messages:", json.dumps(messages, indent=2))
+        print("Schema:", json.dumps(schema, indent=2))
+        
+        response = self.client.chat.completions.create(
             model="gpt-4",
-            messages=[{"role": "user", "content": prompt}]
+            messages=messages
         )
+        print("\nOpenAI Response:")
+        print(json.dumps(response.model_dump(), indent=2))
         
         # Parse and validate against schema
-        result = json.loads(response.choices[0].message.content)
+        try:
+            result = json.loads(response.choices[0].message.content)
+            print("\nParsed Result:")
+            print(json.dumps(result, indent=2))
+        except json.JSONDecodeError as e:
+            print(f"\nError parsing JSON response: {e}")
+            result = {"error": "Failed to parse response"}
         
         # TODO: Add proper JSON schema validation
         return result
